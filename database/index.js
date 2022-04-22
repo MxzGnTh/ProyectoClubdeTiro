@@ -190,6 +190,32 @@ const putSocioDB=async (nombre,apellidos,email,rut)=>{
     }
 }
  
+//borrar socio
+
+const deleteSocioDB = async (rut)=>{
+    const client = await pool.connect();
+
+    const query = {
+      text: "DELETE FROM socio WHERE rut = $1 RETURNING*",
+      values: [rut],
+    };
+    try {
+      const respuesta = await client.query(query);
+  
+      return {
+        ok: true,
+        msg: respuesta,
+      };
+    } catch (error) {
+      console.log(error);
+      return {
+        ok: false,
+        msg: error.message,
+      };
+    } finally {
+      client.release();
+    }
+}
 // crearmos migrarcion
 
 const migrar = () => {
@@ -211,5 +237,6 @@ module.exports = {
     getSocioUpDB,
     postSocioDB,
     putSocioDB,
+    deleteSocioDB,
     migrar,
 };

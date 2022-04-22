@@ -17,11 +17,7 @@ const requireAuth = (req, res, next) => {
 
         const payload = jwt.verify(token, process.env.JWT_SECRET);
         console.log(payload);
-        req.id = payload.id;
-        console.log(
-            "🚀 ~ file: requireAuth.js ~ line 23 ~ requireAuth ~ req.id",
-            req.id
-        );
+
         next();
     } catch (error) {
         if (error.message === "jwt malformed") {

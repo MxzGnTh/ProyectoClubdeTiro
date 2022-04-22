@@ -40,8 +40,10 @@ CREATE TABLE fechaRegistrada (
 );
 
 --llenar datos para prueba de socio
+
 INSERT INTO socio(rut,nombre,apellidos,email,password)VALUES('20238277-0','victor','molina','prueba@gmail.com',1212);
  
 --llenar datos para prueba de Instructor
+
 INSERT INTO Instructor(nombre,apellidos,email,curso)VALUES('pedrito','luan','prueba@gmail.com','pistola de agua');
 

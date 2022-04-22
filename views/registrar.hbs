@@ -13,34 +13,32 @@
 	</div>
 	Spinner End -->
 
-  {{!-- navbar --}}
-  <nav class="navbar navbar-expand-lg bg-dark navbar-dark sticky-top py-lg-0 px-lg-5 wow fadeIn"
-    data-wow-delay="0.1s">
-    <a class="navbar-brand" href="/"><img class="imglogo" src="/img/logo.jpg" alt="logo"/></a>
-      <h1 class="mb-0 text-info text-uppercase">
+  <!-- inicio navbar -->
+<nav class="navbar navbar-expand-lg bg-dark navbar-dark sticky-top py-lg-0 px-lg-5 wow fadeIn" data-wow-delay="0.1s">
+    <a class="navbar-brand" href="/"><img class="imglogo" src="/img/logo.jpg" alt="logo" /></a>
+    <h1 class="mb-0 text-info text-uppercase">
         <a href="/" class="titulo-pagina nav-item nav-link active">FOGUEO SHOOTING</a>
         </a>
-            
-      </h1>
-      
+
+    </h1>
+
     </a>
     <button type="button" class="navbar-toggler me-4" data-bs-toggle="collapse" data-bs-target="#navbarCollapse">
-      <span class="navbar-toggler-icon"></span>
+        <span class="navbar-toggler-icon"></span>
     </button>
     <div class="collapse navbar-collapse" id="navbarCollapse">
-      <div class="navbar-nav ms-auto p-4 p-lg-0">
-        <a href="#" class="nav-item nav-link active">Inicio</a>
-        <a href="#" class="nav-item nav-link">Intructores</a>
-        <a href="#" class="nav-item nav-link">Galeria</a>
-        <a href="#Contacto" class="nav-item nav-link active">Contacto</a>
-        <a href="/iniciarsesion" class="nav-item nav-link">Iniciar Sesion</a>
-      </div>
-    
+        <div class="navbar-nav ms-auto p-4 p-lg-0">
+            <a href="#Inicio" class="nav-item nav-link active">Inicio</a>
+            <a href="#Intructores" class="nav-item nav-link">Intructores</a>
+            <a href="#Galeria" class="nav-item nav-link">Galeria</a>
+            <a href="#Contacto" class="nav-item nav-link">Contacto</a>
+            <a href="/iniciarsesion" class="nav-item nav-link">Iniciar Sesion</a>
+            <a href="/registrar" class="nav-item nav-link">registrate</a>
+        </div>
     </div>
-  </nav>
+</nav>
 <!--fin navbar-->
 
-<!--End navbar-->
 <!-- carousel -->
 <div class="container-fluid p-0 mb-5 wow fadeIn" data-wow-delay="0.1s">
 	<div id="header-carousel" class="carousel slide" data-bs-ride="carousel">
@@ -50,48 +48,48 @@
 					<video autoplay muted loop poster="" src="/img/video4.mp4" alt="video">
 				</div>
 				<div class="carousel-caption d-flex align-items-center justify-content-center text-start">
-					<!-- Contact Start -->
+					<!-- Inicio Contacto -->
 					<div class="form-bg">
 						<div class="container">
 							<div class="row g-4">
 								<div class="col-md-offset-3 col-md-12">
 									<div class="form-container">
 										<h3 class="title">Registrar</h3>
-										<form class="contenedor-formulario form-horizontal">
+										<form class="contenedor-formulario form-horizontal" id="registrarFormulario">
 											<div class="form-group"><label>Nombre</label>
 											<input type="text"
-													class="form-control" placeholder="Nombre de usuario">
+													class="form-control" placeholder="Nombre de usuario" name="nombre">
 											</div>
 											<div class="form-group"><label>Apellido</label>
 											<input type="text"
-													class="form-control" placeholder="Nombre de usuario">
+													class="form-control" placeholder="Nombre de usuario" name="apellido">
 											</div>
 											<div class="form-group">
 												<label>Email</label>
-												<input type="email" class="form-control" placeholder="Ingrese Email">
+												<input type="email" class="form-control" placeholder="Ingrese Email" name="email">
 											</div>
 											<div class="form-group">
 												<label>Confirmar Email</label>
-												<input type="email" class="form-control" placeholder="Ingrese Email">
+												<input type="email" class="form-control" placeholder="Ingrese Email" name="email2">
 											</div>
 											<div class="form-group">
 												<label>Password</label>
-												<input type="password" class="form-control" placeholder="Contraseña">
+												<input type="password" class="form-control" placeholder="Contraseña" name="contrasena">
 											</div>
 											<div class="form-group">
 												<label>Confirm Password</label>
-												<input type="password" class="form-control"
+												<input type="password" class="form-control" name="contasena2"
 													placeholder="Confirmar contraseña">
 											</div>
 											<h4 class="sub-title"></h4>
 											<div class="form-group">
 												<label>RUT</label>
-												<input type="text" class="form-control" placeholder="RUT">
+												<input type="text" class="form-control" placeholder="RUT" name="rut">
 											</div>
 											<div class="form-group">
 												<label>Numero de contacto</label>
 												<input type="text" class="form-control"
-													placeholder="Numero de contacto">
+													placeholder="Numero de contacto" name="telefono">
 											</div>
 											<div class="check-terms">
 												<input type="checkbox" class="checkbox">
@@ -106,13 +104,13 @@
 							</div>
 						</div>
 					</div>
-					<!-- Contact End -->
+					<!-- Inicio Fin-->
 				</div>
 			</div>
 		</div>
 	</div>
 </div>
-<!--carousel end-->
+<!--Fin carousel-->
 
 <!-- Inicio Footer -->
 <div class="container-fluid bg-secondary text-light footer mt-5 pt-5 wow fadeIn" data-wow-delay="0.1s">

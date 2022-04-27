@@ -1,10 +1,8 @@
 const jwt = require("jsonwebtoken");
 const bcryptjs = require("bcryptjs");
 
-const { getSocioDB, getInstructorDB, postSocioDB, getSocioLoginDB, getSocioUpDB, putSocioDB, deleteSocioDB,} = require("../database");
-
-//rut.js 
-
+const { getSocioDB, getInstructorDB, postSocioDB, getSocioLoginDB, getSocioUpDB, putSocioDB, deleteSocioDB, getCursoDB,} = require("../database");
+//rut.js is d
 const { validate, format } = require('rut.js')
 
 
@@ -24,60 +22,56 @@ const getInstructores = async(_, res) => {
     res.json({ respuesta });
 };
 
-// agregar socio
+// registrar socio 🟢
 
 const postSocios = async(req, res) => {
-    const { rut, nombre, apellidos, email,email2, contrasena, contrasena2, telefono} = req.body;
-    console.log("🚀 ~ file: socio.controller.js ~ line 31 ~ postSocios ~ req.body", req.body)
-
+    const { rut, nombre, apellido, email, password,password2,email2,experiencia } = req.body;
+    console.log("🚀 ~ file: socio.controller.js ~ line 29 ~ postSocios ~ req.body", req.body)
+    
     try {
+
+    // validacion espacio en blanco
+    if (!nombre?.trim() || !apellido?.trim() || !password?.trim() || !password2?.trim() || !email?.trim()|| !email2?.trim()|| !rut?.trim()|| !experiencia?.trim() ) {
+        console.log("campos vacios")
+        throw new Error("campos vacios");
+        
+    }
+    // VALIDACION CONTRASEÑA
+
+    if(password !== password2){
+        console.log('contraseña no son iguales')
+        throw new Error("contraseña no son iguales");
+    }
 
     //validacion de rut 
 
     const validarRut = validate(rut)
-    
-    if(validarRut === true){
-        console.log('rut valido')
-    } 
 
     if(validarRut !== true){
+        console.log('rut no valido')
         throw new Error("rut no valido")
     } 
-
     // editar el rut 
 
     const formatoRut = format(rut)
 
-
-    // validacion de email
-
-    if(email === email2){
-        console.log('los email son iguales')
-    }
-
+    // validacion email
     if(email !== email2){
-        throw new Error("los email no son iguales")
+        console.log('los email no coinciden')
+        throw new Error("los email no coinciden")
     }
 
-    //validacion de contraseñas
-    if(contrasena === contrasena2){
-        console.log('las contraseñas son iguales')
-    }
-    if(contrasena !==contrasena2){
-        throw new Error("las contraseña no son iguales")
-    }
 
     // ENCRIPTAR LA CONTRASEÑA
 
     const salt = await bcryptjs.genSalt(10);
 
-    const hash = await bcryptjs.hash(contrasena, salt);
+    const hash = await bcryptjs.hash(password, salt);
 
     // insertamos datos
 
-    const respuesta = await postSocioDB(formatoRut, nombre, apellidos, email, hash);
+    const respuesta = await postSocioDB(formatoRut, nombre, apellido, email, hash);
     
-    // prueba de token coon rut
 
     // crear token
 
@@ -85,43 +79,43 @@ const postSocios = async(req, res) => {
         rut: respuesta.rut,
     };
 
-   
     const token = jwt.sign(payload, process.env.JWT_SECRET, { expiresIn: "1h" });
 
     console.log(respuesta);
 
     res.json({ 
-        agregar:respuesta.ok,
+        actualizar:respuesta.ok,
         token:token, 
-    });
+    }); 
 
     } catch (error) {
         // error de validacion de rut
-        return res.json({ error : error.message });
+        res.json ({ msg: error.message});
     }
 
 };
 
-// login
+// login 🟢
 
 const getLogin = async(req, res) => {
     const { email, password } = req.body;
-    console.log("🚀 ~ file: socio.controller.js ~ line 48 ~ getLogin ~ req.body", req.body)
-
+    
     try {
         // validar que los campos no esten vacio
 
         if (!email?.trim() || !password?.trim()) {
             console.log("campos vacios");
+            throw new Error("campos vacios");
         }
 
         // ver si email existe en DB
         const respuesta = await getSocioLoginDB(email);
+    
 
         const { socio } = respuesta;
-        console.log(socio)
-
+  
         if (!respuesta.ok) {
+            console.log('email incorrecto')
             throw new Error("email incorrecto");
         }
 
@@ -131,73 +125,55 @@ const getLogin = async(req, res) => {
 
         if (!comparePassword) {
             console.log("contraseña incorrecta");
-            res.json({ res: "la contraseña incorrecta" });
+            throw new Error({ res: "la contraseña incorrecta" });
         }
 
-        // generar JWT
-
         const payload = { rut: respuesta.rut };
-        const token = jwt.sign(payload, process.env.JWT_SECRET, {
-            expiresIn: "1h",
-        });
+    
 
         // llamamos el socio y el token
-        console.log(socio, token);
-        return res.json({ ok: true, socio:socio,token: token });
+
+        res.login(payload);
+        return res.loginApi(payload);
+
     } catch (error) {
         console.log(error);
         return res.status(400).json({ ok: false, msg: error.message });
     }
 };
 
-//editar socio 
+//editar socio agregar fecha y curso 🟢
 
 const putSocio = async (req, res) => {
-    const{rut,nombre,apellidos,email}=req.body   
+    const{fecha,curso}=req.body   
+    console.log( req.body)
+    const rut = req.user.rut
+    console.log(rut)
+
     try {
 
         // validar campos del body
 
-    if (!rut?.trim()) {
-        console.log("campos vacios");
+        if (!fecha?.trim()||!curso?.trim()) {
+            console.log("campos vacios");
+            throw new Error("campos vacios")
         }
 
-        //validacion de rut 
+        // ver cereficar curso
 
-        const validarRut = validate(rut)
-
-        if(validarRut === true){
-            console.log('valido')
-        } 
-
-        if(validarRut !== true){
-            throw new Error("rut no valido")
-        } 
-        // editar el rut 
-
-        const formatoRut = format(rut)
-        console.log( formatoRut)
-
-        // ver si rut existe en DB
-        const verificador = await getSocioUpDB(formatoRut);
+        const verificador = await getCursoDB(curso);
         
-        console.log( verificador)
-    
-        if (!verificador.ok) {
-            throw new Error("rut incorrecto");
-        }
-    
-        const { socio } = verificador;
-    
-        if (socio.rut !== formatoRut) {
-            throw new Error("No existe el rut registrado");
-        }
-    
-        const respuesta = await putSocioDB(nombre,apellidos,email,formatoRut)
+        //sacamos el id
 
-        console.log("🚀", respuesta)
-      
-       res.json({ msg: "se actualizo", socio: respuesta });
+        const {cursoDB}=verificador
+
+        const id = cursoDB.id
+
+        // put
+        
+        const respuesta = await putSocioDB(fecha, id, rut)
+
+       res.json({ msg: "se actualizo", ok: respuesta.ok });
     
         
     } catch (error) {

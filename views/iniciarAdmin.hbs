@@ -14,11 +14,7 @@
     <div class="collapse navbar-collapse" id="navbarCollapse">
         <div class="navbar-nav ms-auto p-4 p-lg-0">
             <a href="/" class="nav-item nav-link active">Inicio</a>
-            <a href="#Intructores" class="nav-item nav-link">Intructores</a>
-            <a href="#Galeria" class="nav-item nav-link">Galeria</a>
-            <a href="#Contacto" class="nav-item nav-link">Contacto</a>
-
-            <a href="/registrar" class="nav-item nav-link">registrate</a>
+            
         </div>
     </div>
 </nav>
@@ -38,24 +34,19 @@
                             <div class="row g-4">
                                 <div class="col-md-offset-6 col-md-12">
                                     <div class="form-container">
-                                        <h3 class="title">Iniciar Sesion</h3>
-                                        <form class="contenedor-formulario form-horizontal" id="formularioLogin">
-                                            <div class="form-group">
-                                                <label>Email</label>
-                                                <input type="email" class="form-control" placeholder="Ingrese su Email" name="email">
+                                        <h3 class="title">Iniciar Administrador</h3>
+                                        <form class="contenedor-formulario form-horizontal" id="registrarFormulario">
+                                            <div class="form-group"><label>Email</label>
+                                                <input type="email" class="form-control" placeholder="Ingrese su Email"
+                                                    name="email">
                                             </div>
-                                            <div class="form-group">
-                                                <label>Contraseña</label>
-                                                <input type="password" class="form-control" placeholder="ingrese su contraseña" name="password">
+                                            <div class="form-group"><label>Contraseña</label>
+                                                <input type="password" class="form-control" placeholder="ingrese su contraseña"
+                                                    name="password">
                                             </div>
-                                            <div class="check-terms">
-                                                <input type="checkbox" class="checkbox">
-                                                <span class="check-label">Mantenerme Conectado </span>
-                                            </div>
-                                            <span class="signin-link">NO Tienes una cuenta? <a
-                                                    href="/registrar">Registrate</a></span>
-                                            <span class="signin-link">iniciar <a href="/iniciarAdmin">administrador</a> </span>
-                                                    <button class="btn signup" type="submit">Aceptar</button>
+                                            
+                                            
+                                                    <button class="btn signup" type="submit" href="Admin">Aceptar</button>
                                         </form>
                                     </div>
                                 </div>
@@ -127,4 +118,4 @@
 
 
 <!-- Template Javascript -->
-<script src="/js/iniciarSesion.js"> </script>
+<script src="/js/iniciarsesion.js"> </script>

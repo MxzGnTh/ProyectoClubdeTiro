@@ -1,4 +1,5 @@
-const formulario = document.getElementById('formularioRegistrar')
+const formulario = document.getElementById('inciarSesionAdmin')
+
 
 formulario.addEventListener('submit', async(e) => {
     e.preventDefault()
@@ -7,7 +8,7 @@ formulario.addEventListener('submit', async(e) => {
 
     try {
 
-        const res = await fetch('/api/v1/registrar', {
+        const res = await fetch('/api/v1/inciarAdmin', {
             method: 'post',
             body: formData
         })
@@ -15,7 +16,7 @@ formulario.addEventListener('submit', async(e) => {
         const data = await res.json()
     
 
-        window.location.href = "/iniciarsesion"
+        window.location.href = "/"
 
     }catch(error){
         console.log(error)

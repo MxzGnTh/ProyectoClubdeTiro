@@ -14,6 +14,7 @@
   "dependencies": {
     "bcryptjs": "^2.4.3",
     "bootstrap": "^5.1.3",
+    "cookie-parser": "^1.4.6",
     "dotenv": "^16.0.0",
     "express": "^4.17.3",
     "express-fileupload": "^1.3.1",
@@ -22,7 +23,6 @@
     "nanoid": "^3.3.2",
     "nodemon": "^2.0.15",
     "pg": "^8.7.3",
-    "rut.js": "^2.1.0",
-    "sass": "^1.50.1"
+    "rut.js": "^2.1.0"
   }
 }

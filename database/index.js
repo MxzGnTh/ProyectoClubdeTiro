@@ -20,13 +20,14 @@ if (process.env.DATABASE_URL) opt.ssl = { rejectUnauthorized: false };
 const pool = new Pool(opt);
 //=====================================================================================================================================================================
 
+//====== GET =========
 //llamamos la tabla socio
 
 const getSocioDB = async() => {
     const client = await pool.connect();
 
     const query = {
-        text: "SELECT rut,nombre,apellidos,email FROM socio",
+        text: "SELECT rut,nombre,apellido,email FROM socio",
     };
     try {
         const respuesta = await client.query(query);
@@ -44,13 +45,13 @@ const getSocioDB = async() => {
     }
 };
 
-//llamamos la tabla instructor
+//llamamos la tabla curso
 
 const getInstructorDB = async() => {
     const client = await pool.connect();
 
     const query = {
-        text: "SELECT * FROM Instructor",
+        text: "SELECT * FROM curso",
     };
     try {
         const respuesta = await client.query(query);
@@ -68,7 +69,7 @@ const getInstructorDB = async() => {
     }
 };
 
-//llamamos el socio con email para el login
+//llamamos para el login
 
 const getSocioLoginDB = async(email) => {
     const client = await pool.connect();
@@ -79,10 +80,11 @@ const getSocioLoginDB = async(email) => {
 
     try {
         const respuesta = await client.query(query);
-
+        const { rut } = respuesta.rows[0];
         return {
             ok: true,
             socio: respuesta.rows[0],
+            rut
         };
     } catch (error) {
         console.log(error);
@@ -92,44 +94,6 @@ const getSocioLoginDB = async(email) => {
                 msg: error.message,
             };
         }
-    } finally {
-        client.release();
-    }
-};
-
-//añedir POST a socio
-
-const postSocioDB = async(rut, nombre, apellidos, email, hash) => {
-    const client = await pool.connect();
-
-    const values = [rut, nombre, apellidos, email, hash];
-
-    const query = {
-        text: "INSERT INTO socio (rut,nombre,apellidos,email,password) VALUES ($1,$2,$3,$4,$5) RETURNING *",
-        values,
-    };
-    try {
-        const respuesta = await client.query(query);
-        const { rut } = respuesta.rows[0];
-        console.log(rut);
-        return {
-            ok: true,
-            rut,
-            socio: respuesta.rows,
-            msg: "se registro socio",
-        };
-    } catch (error) {
-        console.log(error);
-        if (error.code === "23505") {
-            return {
-                ok: false,
-                msg: "Ya existe el email registrado",
-            };
-        }
-        return {
-            ok: false,
-            msg: error.message,
-        };
     } finally {
         client.release();
     }
@@ -164,14 +128,79 @@ const getSocioUpDB = async (rut)=>{
     }
 }
 
+//llamamos al socio con el rut para el editar 
+
+const getCursoDB = async (curso)=>{
+    const client = await pool.connect();
+    const query = {
+        text: "SELECT * FROM curso WHERE curso = $1",
+        values: [curso],
+    };
+
+    try {
+        const respuesta = await client.query(query);
+
+        return {
+            ok: true,
+            cursoDB: respuesta.rows[0],
+        };
+    } catch (error) {
+        console.log(error);
+    } finally {
+        client.release();
+    }
+}
+
+//========= POST ============
+//añedir POST a socio
+
+const postSocioDB = async(rut, nombre, apellido, email, hash) => {
+    const client = await pool.connect();
+
+    const values = [rut, nombre, apellido, email, hash];
+
+    const query = {
+        text: "INSERT INTO socio (rut,nombre,apellido,email,password) VALUES ($1,$2,$3,$4,$5) RETURNING *",
+        values,
+    };
+    try {
+        const respuesta = await client.query(query);
+        const { rut } = respuesta.rows[0];
+        console.log(rut);
+        return {
+            ok: true,
+            rut,
+            socio: respuesta.rows,
+            msg: "se registro socio",
+        };
+    } catch (error) {
+        console.log(error);
+        if (error.code === "23505") {
+            return {
+                ok: false,
+                msg: "Ya existe el email registrado",
+            };
+        }
+        return {
+            ok: false,
+            msg: error.message,
+        };
+    } finally {
+        client.release();
+    }
+};
+
+
+
+//========== PRUEBA ==========
 // editar socio
 
-const putSocioDB=async (nombre,apellidos,email,rut)=>{
+const putSocioDB=async (fecha,curso,rut)=>{
     const client = await pool.connect();
-    const values=[nombre,apellidos,email,rut]
+    const values=[fecha,curso,rut]
     const query =  ( {
-        text: "UPDATE socio SET nombre = $1, apellidos = $2, email = $3 WHERE rut = $4 RETURNING *",
-        values,
+        text: "UPDATE socio SET fecha = $1, curso_fk = $2 WHERE rut = $3 RETURNING *",
+        values
     })
     try {
         const respuesta = await client.query(query);
@@ -189,7 +218,7 @@ const putSocioDB=async (nombre,apellidos,email,rut)=>{
         client.release();
     }
 }
- 
+
 //borrar socio
 
 const deleteSocioDB = async (rut)=>{
@@ -216,6 +245,9 @@ const deleteSocioDB = async (rut)=>{
       client.release();
     }
 }
+
+
+
 // crearmos migrarcion
 
 const migrar = () => {
@@ -233,8 +265,9 @@ const migrar = () => {
 module.exports = {
     getSocioDB,
     getInstructorDB,
-    getSocioLoginDB,
     getSocioUpDB,
+    getSocioLoginDB,
+    getCursoDB,
     postSocioDB,
     putSocioDB,
     deleteSocioDB,

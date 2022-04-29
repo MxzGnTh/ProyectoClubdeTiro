@@ -7,3 +7,7 @@ Trabajo en equipo, Nombres:
 
 preguntar👀
 
+Agregar alertas
+   -registro de usuarios
+   -alerta contraseña incorrecta
+   -alerta de contraseña no coinciden

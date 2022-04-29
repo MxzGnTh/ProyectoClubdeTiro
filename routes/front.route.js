@@ -35,7 +35,8 @@ router.get('/iniciarAdmin', (req, res)=>{
 
 // PERFIL USUARIO
 router.get('/perfilusuario', (req, res)=>{
-    res.render('perfilusuario.hbs')
+    const user = {rut:"12.123.123-4",nombre:"mixzio", email:"m@gonzalez.cl",curso:"aprendiz",}
+    res.render('perfilusuario.hbs', {...user})
 })
 
 

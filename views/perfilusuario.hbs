@@ -13,13 +13,10 @@
     </button>
     <div class="collapse navbar-collapse" id="navbarCollapse">
         <div class="navbar-nav ms-auto p-4 p-lg-0">
-            <a href="/" class="nav-item nav-link active">Inicio</a>
-            <a href="#" class="nav-item nav-link">Intructores</a>
-            <a href="#" class="nav-item nav-link">Galeria</a>
-            <a href="#Contacto" class="nav-item nav-link active">Contacto</a>
-            <a href="/iniciarsesion" class="nav-item nav-link">Iniciar Sesion</a>
+            <a href="/usuario" class="nav-item nav-link active">Agendar Hora</a>
+            <a href="/editarsocio" class="nav-item nav-link">Edita tu perfil</a>
+            <a id="logout" class="nav-item nav-link">Cerrar Sesion</a>
         </div>
-
     </div>
 </nav>
 <!--fin navbar-->
@@ -39,21 +36,15 @@
                         <form method="post">
                             <div class="row">
                                 <div class="col-md-6">
-                                    <div class="profile-head">
-                                        <h5>
-                                            {this.name}
-                                        </h5>
-                                        <ul class="nav nav-tabs" id="myTab">
-                                            <li class="nav-item">
-                                                <a class="nav-link active">Tus datos de perfil</a>
-                                            </li>
-                                        </ul>
+                                    <div class="profile-head mb-2">
+                                        <h2 class="mb-5">
+                                            {{nombre}}
+                                        </h2>
+                                        <h5 >Tus Datos Personales</h5>
+                                        <hr>
                                     </div>
                                 </div>
-                                <div class="col-md-2">
-                                    <input type="submit" class="profile-edit-btn" name="btnAddMore"
-                                        value="Agendar Hora" />
-                                </div>
+                                
                             </div>
                             <div class="row">
                                 <div class="col-md-8">
@@ -70,23 +61,14 @@
                                                     <hr>
                                                 </div>
                                             </div>
-                                            <div class="row">
-                                                <div class="col-md-6">
-                                                    <label>Nombre</label>
-                                                    <hr>
-                                                </div>
-                                                <div class="col-md-6">
-                                                    <p>{{nombre}}</p>
-                                                    <hr>
-                                                </div>
-                                            </div>
+                                            
                                             <div class="row">
                                                 <div class="col-md-6">
                                                     <label>Email</label>
                                                     <hr>
                                                 </div>
                                                 <div class="col-md-6">
-                                                    <p>{{email}}</p>
+                                                    <p>yulio@gmail.com</p>
                                                     <hr>
                                                 </div>
                                             </div>
@@ -96,9 +78,19 @@
                                                     <hr>
                                                 </div>
                                                 <div class="col-md-6">
-                                                    <p>{{this.curso}}</p>
+                                                    <p>leyenda</p>
                                                     <hr>
                                                 </div>
+                                            </div>
+                                            <div class="row">
+                                            <div class="col-md-6">
+                                                <label>fecha</label>
+                                                <hr>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <p>nose</p>
+                                                <hr>
+                                            </div>
                                             </div>
                                         </div>
                                     </div>

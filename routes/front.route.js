@@ -1,6 +1,9 @@
 const {Router} = require('express');
+const { prueba } = require('../controller/socio.controller');
+const { getSocioAdmiDB } = require('../database');
 const router = Router();
-//=====================================================//
+
+//=========SOCIO===================================
 
 //Inicio
 router.get('/', (req, res)=>{
@@ -13,13 +16,8 @@ router.get('/registrar',(req, res)=>{
 })
 
 //INICIAR SESIÓN
-router.get('/iniciarsesion', (req, res)=>{
+router.get('/iniciarSesion', (req, res)=>{
     res.render('iniciarsesion.hbs')
-})
-
-// ADMIN
-router.get('/Admin', (req, res)=>{
-    res.render('Admin.hbs')
 })
 
 //USUARIO
@@ -27,16 +25,47 @@ router.get('/usuario',(req, res)=>{
     res.render('usuario.hbs')
 })
 
+// PARA AGREGAR FECHA Y HORA
+router.get('/editarsocio',(req, res)=>{
+    res.render('editarsocio.hbs')
+})
+
+//=========ADMIN============================== 
+
 // INICIAR ADMIN
 router.get('/iniciarAdmin', (req, res)=>{
     res.render('iniciarAdmin.hbs')
 })
 
+// ADMIN
+router.get('/Admin', async (req, res)=>{
+    const rows = await getSocioAdmiDB()
+    res.render('Admin.hbs',{rows})
+})
+
+// EDITAR PERFIL ADMIN
+
+router.get('/AdminEditar', (req, res)=>{
+    res.render('adminEditar.hbs')
+})
+
+// ELIMINAR SOCIO ADMIN
+router.get('/eliminarSocio', (req, res)=>{
+    res.render('AdminEliminar.hbs')
+})
+
+//===========prueba============================
 
 // PERFIL USUARIO
+
 router.get('/perfilusuario', (req, res)=>{
     const user = {rut:"12.123.123-4",nombre:"mixzio", email:"m@gonzalez.cl",curso:"aprendiz",}
+    console.log('req',req.headers.authorization);
     res.render('perfilusuario.hbs', {...user})
+})
+
+router.get('/editarperfil',(req, res)=>{
+    res.render('editarSocio.hbs')
 })
 
 

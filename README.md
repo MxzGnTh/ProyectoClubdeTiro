@@ -5,9 +5,7 @@ Trabajo en equipo, Nombres:
 
 *Club de tiro Fogeo Shooter
 
+tamaño del mapa es 400 x 200 para cambiar direccion
+
 preguntar👀
 
-Agregar alertas
-   -registro de usuarios
-   -alerta contraseña incorrecta
-   -alerta de contraseña no coinciden

@@ -1,10 +1,4 @@
-window.document.addEventListener("DOMContentLoaded", async () => {
-	if (!localStorage.getItem("token")) {
-		window.location.href = "/api/v1/iniciarsesion";
-	}
-});
-
-const formulario = document.getElementById("formularioUsuario");
+const formulario = document.getElementById("editarsocio");
 
 formulario.addEventListener("submit", async (e) => {
 	e.preventDefault();
@@ -14,7 +8,7 @@ formulario.addEventListener("submit", async (e) => {
  
 
 	try {
-		const res = await fetch("/api/v1/usuario", {
+		const res = await fetch("/api/v1/editarsocio", {
 			method: "put",
 			body: formData,
 		});

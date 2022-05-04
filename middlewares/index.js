@@ -23,6 +23,6 @@ exports.load = (app) => {
 		express.static(path.join(__dirname, "../node_modules/bootstrap/dist"))
 	);
 
-	app.use(["/api/v1/usuario", "/usuario","/perfilusuario"], guardianSocio);
-	app.use(["/Admin","/AdmiEditar","/eliminarSocio","/api/v1/editarAdmin","/api/v1/eliminar"],guardianAdmin)
+	app.use(["/api/v1/usuario", "/api/v1/editarsocio","/usuario","/perfilusuario","/editarsocio","/api/v1/perfilusuario"], guardianSocio);
+	app.use(["/Admin","/AdminEditar","/eliminarSocio","/api/v1/editarAdmin","/api/v1/eliminar"],guardianAdmin)
 };

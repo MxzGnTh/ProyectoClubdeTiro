@@ -24,54 +24,6 @@ const pool = new Pool(opt);
 
 //====== GET =========================================================
 
-//llamamos la tabla socio
-
-const getSocioDB = async () => {
-	const client = await pool.connect();
-
-	const query = {
-		text: "SELECT rut,nombre,apellido,email FROM Socio",
-	};
-	try {
-		const respuesta = await client.query(query);
-		return {
-			ok: true,
-			socio: respuesta.rows,
-		};
-	} catch (error) {
-		return {
-			ok: false,
-			msg: error.message,
-		};
-	} finally {
-		client.release();
-	}
-};
-
-//llamamos la tabla curso
-
-const getInstructorDB = async () => {
-	const client = await pool.connect();
-
-	const query = {
-		text: "SELECT * FROM curso",
-	};
-	try {
-		const respuesta = await client.query(query);
-		return {
-			ok: true,
-			Instructor: respuesta.rows,
-		};
-	} catch (error) {
-		return {
-			ok: false,
-			msg: error.message,
-		};
-	} finally {
-		client.release();
-	}
-};
-
 //llamamos para el login
 
 const getSocioLoginDB = async (email) => {
@@ -166,7 +118,9 @@ const postSocioDB = async (rut, nombre, apellido, email, hash) => {
 	const query = {
 		text: "INSERT INTO socio (rut,nombre,apellido,email,password) VALUES ($1,$2,$3,$4,$5) RETURNING *",
 		values,
+		
 	};
+	console.log(values)
 	try {
 		const respuesta = await client.query(query);
 		const { rut } = respuesta.rows[0];
@@ -178,13 +132,6 @@ const postSocioDB = async (rut, nombre, apellido, email, hash) => {
 			msg: "se registro socio",
 		};
 	} catch (error) {
-		console.log(error);
-		if (error.code === "23505") {
-			return {
-				ok: false,
-				msg: "Ya existe el email registrado",
-			};
-		}
 		return {
 			ok: false,
 			msg: error.message,
@@ -196,7 +143,7 @@ const postSocioDB = async (rut, nombre, apellido, email, hash) => {
 
 //========== PUT =========================================================
 
-// editar socio
+// agregar fecha y curso
 
 const putSocioDB = async (fecha, curso, rut) => {
 	const client = await pool.connect();
@@ -222,30 +169,54 @@ const putSocioDB = async (fecha, curso, rut) => {
 	}
 };
 
-//======== PRUEBA =========================================================
+// editar datos
 
-const getPruebaDB = async (rut) => {
+const putDataDB = async (nombre,apellido,email,hash,rut) => {
 	const client = await pool.connect();
-	const values = [rut];
+	const values = [nombre,apellido,email,hash,rut];
 	const query = {
-		text: "SELECT * FROM Socio WHERE rut = $1",
+		text: "UPDATE socio SET nombre = $1, apellido = $2, email = $3 , password = $4 WHERE rut = $5 RETURNING *",
 		values,
 	};
 	try {
 		const respuesta = await client.query(query);
-		console.log(
-			"🚀 ~ file: index.js ~ line 239 ~ getPruebaDB ~ respuesta",
-			respuesta.rows
-		);
 		return {
 			ok: true,
-			socio: respuesta.rows,
+			socio: respuesta,
 		};
 	} catch (error) {
+		console.log(error);
 		return {
 			ok: false,
 			msg: error.message,
 		};
+	} finally {
+		client.release();
+	}
+};
+
+//======== PRUEBA =========================================================
+
+const getDataDB = async (rut) => {
+	const client = await pool.connect();
+	const query = {
+		text: "SELECT nombre,apellido,email,fecha,curso_fk,rut FROM Socio WHERE rut = $1",
+		values : [rut],
+	};
+	try {
+		const respuesta = await client.query(query);
+		return {
+			ok: true,
+			socio: respuesta.rows[0],
+		};
+	} catch (error) {
+		if (error.code === "23505") {
+			return {
+				ok: false,
+				msg: error.message,
+			};
+		}
+		return { ok: false, msg: error.message };
 	} finally {
 		client.release();
 	}
@@ -290,6 +261,7 @@ const getSocioAdmiDB = async () => {
 };
 
 //editar fecha y hora en administrador
+
 const putAdmiDB = async (fecha, curso, email) => {
 	const client = await pool.connect();
 	const values = [fecha, curso, email];
@@ -357,13 +329,13 @@ const migrar = () => {
 };
 
 module.exports = {
-	getSocioDB,
-	getInstructorDB,
 	getSocioUpDB,
 	getSocioLoginDB,
 	getCursoDB,
+	getDataDB,
 	postSocioDB,
 	putSocioDB,
+	putDataDB,
 	deleteSocioDB,
 	//==ADMIN===========
 	getSocioAdmiDB,
@@ -371,6 +343,4 @@ module.exports = {
 	putAdmiDB,
 	//===MIGRACION======
 	migrar,
-	//=== PRUEBA========
-	getPruebaDB,
 };

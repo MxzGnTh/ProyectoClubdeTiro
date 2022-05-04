@@ -60,7 +60,6 @@ router.get('/eliminarSocio', (req, res)=>{
 
 router.get('/perfilusuario', (req, res)=>{
     const user = {rut:"12.123.123-4",nombre:"mixzio", email:"m@gonzalez.cl",curso:"aprendiz",}
-    console.log('req',req.headers.authorization);
     res.render('perfilusuario.hbs', {...user})
 })
 
@@ -68,5 +67,8 @@ router.get('/editarperfil',(req, res)=>{
     res.render('editarSocio.hbs')
 })
 
+router.get("/CerrarSesion",(req, res )=>{
+    res.render('CerrarSesion.hbs')
+})
 
 module.exports = router

@@ -9,6 +9,8 @@ const {
     getadmin,
     putAdmin,
     logout,
+    putdatos,
+    getSocioData,
 } = require("../controller/socio.controller");
 
 const router = express.Router();
@@ -17,15 +19,20 @@ const router = express.Router();
 
 router.get("/leer",getSocioadmi)
 
+
 //======== POST ==============
 
 router.post("/iniciarsesion", getLogin);
 
 router.post("/registrar", postSocios);
 
+router.post('/perfilUsuario', getSocioData)
+
 //======== PUT ==============
 
 router.put('/usuario',putSocio);
+
+router.put('/editarsocio',putdatos)
 
 //=========ADMIN===============
 

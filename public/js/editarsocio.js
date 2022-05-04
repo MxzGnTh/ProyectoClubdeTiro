@@ -1,6 +1,7 @@
 const formulario = document.getElementById("editarsocio");
 
 formulario.addEventListener("submit", async (e) => {
+	
 	e.preventDefault();
 
 	const formData = new FormData(formulario);

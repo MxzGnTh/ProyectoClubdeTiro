@@ -2,16 +2,17 @@ const jwt = require("jsonwebtoken");
 const bcryptjs = require("bcryptjs");
 
 const {
-
 	postSocioDB,
 	getSocioLoginDB,
-
 	putSocioDB,
 	deleteSocioDB,
 	getCursoDB,
 	getSocioAdmiDB,
 	getAdminDB,
 	putAdmiDB,
+	putDataDB,
+	getDataDB,
+	
 	
 } = require("../database");
 
@@ -35,10 +36,7 @@ const postSocios = async (req, res) => {
 		email2,
 		experiencia,
 	} = req.body;
-	console.log(
-		"🚀 ~ file: socio.controller.js ~ line 29 ~ postSocios ~ req.body",
-		req.body
-	);
+
 
 	try {
 		// validacion espacio en blanco
@@ -52,13 +50,11 @@ const postSocios = async (req, res) => {
 			!rut?.trim() ||
 			!experiencia?.trim()
 		) {
-			console.log("campos vacios");
 			throw new Error("campos vacios");
 		}
 		// VALIDACION CONTRASEÑA
 
 		if (password !== password2) {
-			console.log("contraseña no son iguales");
 			throw new Error("contraseña no son iguales");
 		}
 
@@ -67,7 +63,6 @@ const postSocios = async (req, res) => {
 		const validarRut = validate(rut);
 
 		if (validarRut !== true) {
-			console.log("rut no valido");
 			throw new Error("rut no valido");
 		}
 		// editar el rut
@@ -76,7 +71,6 @@ const postSocios = async (req, res) => {
 
 		// validacion email
 		if (email !== email2) {
-			console.log("los email no coinciden");
 			throw new Error("los email no coinciden");
 		}
 
@@ -106,7 +100,7 @@ const postSocios = async (req, res) => {
 			expiresIn: 120,
 		});
 
-		console.log(respuesta);
+		console.log('registrado')
 
 		return res.json({
 			registro: respuesta.ok,
@@ -131,8 +125,7 @@ const getLogin = async (req, res) => {
 
 		// ver si email existe en DB
 		const respuesta = await getSocioLoginDB(email);
-        console.log(respuesta)
-        
+    
         const { socio } = respuesta;
 
 		if (!respuesta.ok) {
@@ -154,7 +147,7 @@ const getLogin = async (req, res) => {
 		res.login(payload);
         
 		res.loginApi(payload);
-
+		console.log('logeado')
 	} catch (error) {
 		console.log(error.message);
 		return res.status(400).json({ msg: error.message });
@@ -188,8 +181,11 @@ const putSocio = async (req, res) => {
 		// put
 
 		const respuesta = await putSocioDB(fecha, cursoDB.curso, rut);
-		console.log("se actualizo");
+
+		console.log("se actualizo curso y fecha");
+
 		res.json({ msg: "se actualizo", ok: respuesta.ok });
+
 	} catch (error) {
 		return res.status(400).json({
 			ok: false,
@@ -198,6 +194,62 @@ const putSocio = async (req, res) => {
 	}
 };
 
+// editar socio datos 
+const putdatos = async (req, res) => {
+	const{nombre,apellido,email,email2,password,password2}= req.body;
+	
+	const rut = req.user.rut;
+
+	try {
+		// validacion espacio en blanco
+		if (
+			!nombre?.trim() ||!apellido?.trim()||!email?.trim() ||!email2?.trim()||!password?.trim()||!password2?.trim()){
+				throw new Error("campos vacios");
+			};
+		
+		// validacion email
+		if (email !== email2) {
+			throw new Error("los email no coinciden");
+		}
+		// validacion email
+		if (password !== password2) {
+			throw new Error("las contraseña no coinciden");
+		}
+			// ENCRIPTAR LA CONTRASEÑA
+		
+
+			const salt = await bcryptjs.genSalt(10);
+
+			const hash = await bcryptjs.hash(password, salt);
+	
+		// put
+	
+		const respuesta = await putDataDB(nombre,apellido,email, hash,rut);
+     
+		console.log("se actualizo los datos");
+
+		res.json({ msg: "se actualizo", ok: respuesta.ok });
+
+	} catch (error) {
+		return res.status(400).json({
+			ok: false,
+			msg: error.message,
+		});
+	}
+}
+
+// prueba
+const getSocioData = async(req, res)=>{
+	const rut = req.user.rut;
+	try {
+		const respuesta = await getDataDB(rut)
+		const{socio} = respuesta
+		return [socio.nombre,socio.apellido,socio.email,socio.fecha,socio.curso_fk,socio.rut]
+	} catch (error) {
+		
+	}
+}
+    
 //=========ADMIN=============================
 
 //llamamos al admin para el login🟢
@@ -218,7 +270,7 @@ const getadmin = async (req, res) => {
 		const { admi } = admin;
 
 		if (!admin.ok) {
-			console.log("email incorrecto");
+
 			throw new Error("email incorrecto");
 		}
 
@@ -237,8 +289,9 @@ const getadmin = async (req, res) => {
 
 		res.loginApi(payload);
 
-		//res.status(200).json("ok")
-	} catch (error) {
+		console.log('ENTRO EL Admin')
+
+	} catch (error) {	
 		console.log(error);
 		return res.status(400).json({ ok: false, msg: error.message });
 	}
@@ -265,21 +318,16 @@ const putAdmin = async (req, res) => {
 		// validar campos del body
 
 		if (!fecha?.trim() || !curso?.trim()) {
-			console.log("campos vacios");
-
 			throw new Error("campos vacios");
 		}
 
 		if (email !== email2) {
-			console.log("los email no coinciden");
 			throw new Error("los email no coinciden");
 		}
 
 		const SocioEmail = await getSocioLoginDB(email);
 
 		if (!SocioEmail.ok) {
-			console.log("email incorrecto");
-
 			throw new Error("email incorrecto");
 		}
 
@@ -294,7 +342,10 @@ const putAdmin = async (req, res) => {
 
 		const respuesta = await putAdmiDB(fecha, cursoDB.curso, socio.email);
 
+		console.log('el admin actualizo el fecha curso ')
+
 		return res.json({ msg: "se actualizo", ok: respuesta.ok });
+
 	} catch (error) {
 		return res.status(400).json({
 			ok: false,
@@ -302,16 +353,6 @@ const putAdmin = async (req, res) => {
 		});
 	}
 };
-
-//logout
-
-const logout = async (req, res) => {
-    return res
-    .clearCookie("token")
-    .status(200)
-    .redirect('/');
-
-}
 
 //elimar socio 🟢
 
@@ -322,7 +363,7 @@ const deleteSocio = async (req, res) => {
 		// validar campos del body
 
 		if (!email?.trim() || !email2?.trim()) {
-			console.log("campos vacios");
+			throw new Error("campos vacio");
 		}
 
 		//email
@@ -342,7 +383,10 @@ const deleteSocio = async (req, res) => {
 
 		const respuesta = await deleteSocioDB(email);
 
+		console.log('el admin elimino un usuario')
+
 		res.json({ delete: "se elimino correctamente", msg: respuesta.ok });
+
 	} catch (error) {
 		console.log(error);
 		return res.status(400).json({
@@ -352,14 +396,31 @@ const deleteSocio = async (req, res) => {
 	}
 };
 
+//=====BORRAR TOKEN=============
+
+//logout
+
+const logout = async (req, res) => {
+    return res
+    .clearCookie("token")
+    .status(200)
+    .redirect('/CerrarSesion');
+
+}
+
+
+
 module.exports = {
 	getLogin,
+	getSocioData,
 	postSocios,
 	putSocio,
+	putdatos,
 	deleteSocio,
 	//=== ADMIN =====
 	getSocioadmi,
 	getadmin,
 	putAdmin,
+	//==token==
     logout,
 };

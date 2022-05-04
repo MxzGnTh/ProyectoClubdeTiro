@@ -28,14 +28,17 @@
                 <div class="row">
                     <div class="col-md-offset-3 col-md-12">
                         <div class="form-container">
-                            <h3 class="title">ERROR DE USUARIO</h3>
-                            <h5><small>Contraseña incorrecta o Email incorrecto</small></h5>
-                            <span class="signin-link">intenta nuevamente <a href="/iniciarsesion">aqui</a> </span>
-                            <span class="signin-link">aun no tienes cuenta?  <a href="/registrar">Registrate</a></span>
+                            <h5 class="title">HAS CERRADO SESION</h5>
                         </div>
-
                     </div>
                 </div>
             </div>
         </div>
     </div>
+</div>
+<script>
+    function redireccionarPagina() {
+        window.location = "/";
+    }
+    setTimeout("redireccionarPagina()", 2000);
+</script>

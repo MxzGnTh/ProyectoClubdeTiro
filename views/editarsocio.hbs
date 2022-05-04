@@ -12,8 +12,8 @@
     </button>
     <div class="collapse navbar-collapse" id="navbarCollapse">
       <div class="navbar-nav ms-auto p-4 p-lg-0">
+		<a href="/perfilusuario" class="nav-item nav-link ">Perfil</a>
         <a href="/perfilusuario" class="nav-item nav-link active">Perfil Socio</a>
-        <a href="/" class="nav-item nav-link active">Cerrar Sesion</a>
       </div>
         
     
@@ -37,7 +37,18 @@
 								<div class="col-md-offset-3 col-md-12">
 									<div class="form-container">
 										<h3 class="title">Edita los Datos de tu perfil</h3>
-										<form class="form-horizontal" id="editarsocio">	
+										<form class="form-horizontal" id="editarsocio">
+
+											<div class="form-group">
+												<label>Nombre</label>
+												<input type="text" class="form-control" placeholder="Contraseña" name="nombre">
+											</div>
+
+											<div class="form-group">
+												<label>Apellido</label>
+												<input type="text" class="form-control" placeholder="Confirma Contraseña" name="apellido">
+											</div>
+											
 											<div class="form-group">
 												<label>Nuevo Email</label>
 												<input type="email" class="form-control" placeholder="email" name="email">
@@ -46,20 +57,13 @@
 												<label>Confirma Nuevo Email</label>
 												<input type="email" class="form-control" placeholder="Confirma email" name="email2">
 											</div>
-											
 											<div class="form-group">
-												<label>Nueva Contraseña</label>
-												<input type="password" class="form-control" placeholder="Contraseña" name="password">
+												<label>Contraseña</label>
+												<input type="password" class="form-control" placeholder="Contraseña" name="password"  required minlength="4" maxlength="15">
 											</div>
-
 											<div class="form-group">
-												<label>Confirma Nueva Contraseña</label>
-												<input type="password" class="form-control" placeholder="Confirma Contraseña" name="password2">
-											</div>
-											
-											<div class="form-group">
-												<label>RUT</label>
-												<input type="text" class="form-control" placeholder="Rut" name="rut">
+												<label>Confirma Contraseña</label>
+												<input type="password" class="form-control" placeholder="Confirma Contraseña" name="password2"  required minlength="4" maxlength="15">
 											</div>
 											<button class="btn signup" type="submit">Editar Perfil</button>
 										</form>

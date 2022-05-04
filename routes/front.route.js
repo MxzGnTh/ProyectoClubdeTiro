@@ -70,5 +70,11 @@ router.get('/editarperfil',(req, res)=>{
 router.get("/CerrarSesion",(req, res )=>{
     res.render('CerrarSesion.hbs')
 })
+router.get("/registradoConExito",(req, res )=>{
+    res.render('registradoConExito.hbs')
+})
+router.get("/agendadoConExito",(req, res )=>{
+    res.render('agendadoConExito.hbs')
+})
 
 module.exports = router

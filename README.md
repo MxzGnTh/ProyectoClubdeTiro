@@ -7,5 +7,7 @@ Trabajo en equipo, Nombres:
 
 tamaño del mapa es 400 x 200 para cambiar direccion
 
-preguntar👀
+
+
+heroku (☞ﾟヮﾟ)☞ https://mizxio.herokuapp.com ☜(ﾟヮﾟ☜)
 

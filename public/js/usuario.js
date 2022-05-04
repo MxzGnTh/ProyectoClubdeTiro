@@ -21,7 +21,7 @@ formulario.addEventListener("submit", async (e) => {
 
 		const data = await res.json();
 
-		window.location.href = "/perfilusuario";
+		window.location.href = "/agendadoConExito";
 	} catch (error) {
 		console.log(error);
 	}

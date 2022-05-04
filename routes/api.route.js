@@ -19,7 +19,6 @@ const router = express.Router();
 
 router.get("/leer",getSocioadmi)
 
-
 //======== POST ==============
 
 router.post("/iniciarsesion", getLogin);

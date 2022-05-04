@@ -194,7 +194,7 @@ const putSocio = async (req, res) => {
 	}
 };
 
-// editar socio datos 
+// editar socio datos 🟢
 const putdatos = async (req, res) => {
 	const{nombre,apellido,email,email2,password,password2}= req.body;
 	
@@ -216,7 +216,6 @@ const putdatos = async (req, res) => {
 			throw new Error("las contraseña no coinciden");
 		}
 			// ENCRIPTAR LA CONTRASEÑA
-		
 
 			const salt = await bcryptjs.genSalt(10);
 
@@ -239,12 +238,16 @@ const putdatos = async (req, res) => {
 }
 
 // prueba
+
 const getSocioData = async(req, res)=>{
 	const rut = req.user.rut;
+    console.log(rut)
 	try {
 		const respuesta = await getDataDB(rut)
+        console.log(respuesta)
 		const{socio} = respuesta
-		return [socio.nombre,socio.apellido,socio.email,socio.fecha,socio.curso_fk,socio.rut]
+	
+		return res.json({socio})
 	} catch (error) {
 		
 	}
@@ -407,8 +410,6 @@ const logout = async (req, res) => {
     .redirect('/CerrarSesion');
 
 }
-
-
 
 module.exports = {
 	getLogin,

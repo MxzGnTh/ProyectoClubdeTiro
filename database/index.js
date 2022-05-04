@@ -118,9 +118,7 @@ const postSocioDB = async (rut, nombre, apellido, email, hash) => {
 	const query = {
 		text: "INSERT INTO socio (rut,nombre,apellido,email,password) VALUES ($1,$2,$3,$4,$5) RETURNING *",
 		values,
-		
 	};
-	console.log(values)
 	try {
 		const respuesta = await client.query(query);
 		const { rut } = respuesta.rows[0];

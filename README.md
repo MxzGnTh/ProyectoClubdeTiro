@@ -5,9 +5,5 @@ Trabajo en equipo, Nombres:
 
 *Club de tiro Fogeo Shooter
 
-tamaño del mapa es 400 x 200 para cambiar direccion
-
-
-
-heroku (☞ﾟヮﾟ)☞ https://mizxio.herokuapp.com ☜(ﾟヮﾟ☜)
+heroku (☞ﾟヮﾟ)☞ https://clubdetirofogueo.herokuapp.com/ ☜(ﾟヮﾟ☜)
 

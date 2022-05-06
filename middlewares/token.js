@@ -4,12 +4,12 @@ const parsearToken = (req, res, next) => {
 	const secret = process.env.JWT_SECRET;
 
 	res.login = function (data) {
-		const token = jwt.sign(data, secret/* , { expiresIn:60 * 2 } */);
+		const token = jwt.sign(data, secret , { expiresIn:60 * 2 } );
 		return this.cookie("token", token);
 	};
 
 	res.loginApi = function (data) {
-		const token = jwt.sign(data, secret/* , { expiresIn:60 * 2  } */);
+		const token = jwt.sign(data, secret , { expiresIn:60 * 2  } );
 		return this.json({ ok: true, token }).status(200);
 	};
 
